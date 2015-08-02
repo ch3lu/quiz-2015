@@ -25,7 +25,7 @@ router.get('/quizes/:quizId(\\d+)',        quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 // Definición de ruta de /author
 router.get('/author', function(req, res){
-  res.render('author');
+  res.render('author', {title: 'Autor', errors: []});
 });
 router.get('/quizes/new',                  sessionController.loginRequired, quizController.new);
 router.post('/quizes/create',              sessionController.loginRequired, quizController.create);

@@ -1,17 +1,19 @@
 <form method="get" action="/quizes/<%= quiz.id %>/answer">
-  Pregunta: <%= quiz.pregunta %> <p>
+  <%= quiz.pregunta %> <p>
   <input type="text" name="respuesta" value="Respuesta"/>
   <input type="submit" value="Enviar">
-
-<p>Pregunta de la categoría: <%= quiz.tema %></p>
 </form>
 
-<br><br>
-<div>
 <p><a href="/quizes/<%= quiz.id %>/comments/new"><button>Nuevo comentario</button></a></p>
 
+<br><br>
 <p><strong>Comentarios:</strong></p>
 <%for(index in quiz.Comments){%>
-	<p>- <%=quiz.Comments[index].texto%></p>
+	<%if(quiz.Comments[index].publicado || session.user){%>
+		<p>- <%=quiz.Comments[index].texto%>
+			<%if(session.user && !quiz.Comments[index].publicado){%>
+				<a href="/quizes/<%= quiz.id %>/comments/<%=quiz.Comments[index].id%>/publish"><button>Publicar</button></a>
+			<%}%>
+		</p>
+	<%}%>
 <%}%>
-</div>

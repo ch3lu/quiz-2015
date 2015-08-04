@@ -24,6 +24,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('jlgomez Quiz 2015'));
+// timeout de sesiones con req.session.cookie.expires y req.session.cookie.maxAge = hour
 app.use(session());
 
 app.use(methodOverride('_method'));
@@ -39,6 +40,23 @@ app.use(function(req, res, next) {
 
   // Hacer visible req.session en las vistas
   res.locals.session = req.session;
+  next();
+});
+
+// autologout
+app.use(function(req, res, next) {
+  var timeout = 120000;
+  function current_time() { return (new Date()).getTime() };
+
+  if (!req.session.user) {
+    req.session.mark = current_time();
+  }
+  else if (current_time() - req.session.mark > timeout ) {
+        delete req.session.user;
+        delete req.session.mark;
+      } else {
+        req.session.mark = current_time();
+        }
   next();
 });
 

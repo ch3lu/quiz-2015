@@ -17,7 +17,7 @@ module.exports = function (sequelize, DataTypes) {
         return this.aggregate('QuizId', 'count', { distinct: true }).then('success', function(count) { return count; })
       },
       countPublished: function () {
-        return this.count({where: {publicado: 1}}).then('success', function(count) { return count; })
+        return this.count({where: {publicado: true}}).then('success', function(count) { return count; })
       }
     }
   });
